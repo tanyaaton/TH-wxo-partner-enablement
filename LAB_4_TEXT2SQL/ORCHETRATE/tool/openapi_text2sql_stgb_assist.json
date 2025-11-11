@@ -1,0 +1,109 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Text2SQL School Database API",
+    "description": "API for converting natural language questions (Thai/English) into SQL queries using watsonx.ai gpt-oss-120b and executing them on SQLite school database.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://text2sql-stgb-application.20eqw07t7d44.us-south.codeengine.appdomain.cloud",
+      "description": "Text2SQL API server"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Returns API health status",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/text2sql": {
+      "post": {
+        "summary": "Convert Natural Language to SQL",
+        "description": "Generate SQL from NL question (Thai/English), execute it on school.db, and return results with AI-generated explanation.",
+        "operationId": "text2sql_text2sql_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Text2SQLRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with SQL query, explanation and results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Text2SQLResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid or missing input"
+          },
+          "422": {
+            "description": "Validation Error"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Text2SQLRequest": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "Natural language question (Thai or English)"
+          },
+          "assumptions": {
+            "type": "string",
+            "description": "Optional clarifications/assumptions"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Max rows to return",
+            "default": 200,
+            "minimum": 1,
+            "maximum": 10000
+          }
+        },
+        "required": ["question"]
+      },
+      "Text2SQLResponse": {
+        "type": "object",
+        "properties": {
+          "sql_query": {
+            "type": "string",
+            "description": "Generated SQL query"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "AI-generated explanation of the query"
+          },
+          "results": {
+            "type": "object",
+            "description": "Query execution results"
+          }
+        },
+        "required": ["sql_query", "explanation", "results"]
+      }
+    }
+  }
+}

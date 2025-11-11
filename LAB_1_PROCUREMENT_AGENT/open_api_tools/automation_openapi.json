@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://google-automation.1u1bpgsnsvuw.us-south.codeengine.appdomain.cloud",
+      "url": "https://application-ce.22l9uxc25em9.us-south.codeengine.appdomain.cloud",
       "description": "Production server"
     }
   ],

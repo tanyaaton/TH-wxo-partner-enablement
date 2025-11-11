@@ -1,0 +1,231 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Text2SQL School Database API",
+    "description": "A natural language to SQL API service that converts Thai/English questions into SQL queries and executes them against a comprehensive school database. Powered by IBM WatsonX.ai GPT-OSS-120B model for intelligent querying capabilities including student demographics analysis, academic performance monitoring, attendance tracking, library usage patterns, food service analytics, and health records management.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://text2sql-stgb-application.20eqw07t7d44.us-south.codeengine.appdomain.cloud",
+      "description": "Production server on IBM Code Engine"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Check the health status of the API service and database connection",
+        "operationId": "healthCheck",
+        "tags": ["System"],
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "db_connected": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "db_path": {
+                      "type": "string",
+                      "example": "/app/data.db"
+                    }
+                  },
+                  "required": ["status", "db_connected", "db_path"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/text2sql": {
+      "post": {
+        "summary": "convert_text_to_sql_stgb",
+        "description": "Converts a natural language question (Thai or English) about school data into a SQL query, executes it against the database, and returns results with an AI-generated explanation. Supports student information queries, academic performance analysis, attendance monitoring, library usage tracking, food service analytics, health records analysis, demographic studies, and educational insights.",
+        "operationId": "convert_text_to_sql_stgb",
+        "tags": ["Text2SQL"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Text2SQLRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully generated SQL, executed query, and returned results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Text2SQLResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid input, SQL parsing error, or query execution error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error - Model or database connection issues",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Text2SQLRequest": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "Natural language question about school data (Thai or English)",
+            "example": "นักเรียนที่มาจากจังหวัดเชียงใหม่มีกี่คนและแบ่งตามระดับชั้นเรียนอย่างไร",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "assumptions": {
+            "type": "string",
+            "description": "Optional clarifications or additional context for the query",
+            "example": "Focus on current academic year for student performance analysis",
+            "maxLength": 500,
+            "nullable": true
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of rows to return",
+            "minimum": 1,
+            "maximum": 10000,
+            "default": 200,
+            "example": 100
+          }
+        },
+        "required": ["question"]
+      },
+      "Text2SQLResponse": {
+        "type": "object",
+        "properties": {
+          "sql_query": {
+            "type": "string",
+            "description": "Generated SQL query that was executed",
+            "example": "SELECT ชั้น, COUNT(*) as จำนวนนักเรียน FROM STUDENT WHERE จังหวัด = 'เชียงใหม่' GROUP BY ชั้น ORDER BY ชั้น;"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "AI-generated explanation of the query results in educational context",
+            "example": "The query found 85 students from Chiang Mai province distributed across different grade levels. Grade 5 has 42 students while Grade 6 has 43 students, showing balanced enrollment from this northern province. This represents 15% of the total student population."
+          },
+          "results": {
+            "type": "object",
+            "properties": {
+              "columns": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Column names from the query result",
+                "example": ["ชั้น", "จำนวนนักเรียน", "เปอร์เซ็นต์"]
+              },
+              "rows": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                },
+                "description": "Query result rows as objects",
+                "example": [
+                  {"ชั้น": "ป.5", "จำนวนนักเรียน": 42, "เปอร์เซ็นต์": 49.4},
+                  {"ชั้น": "ป.6", "จำนวนนักเรียน": 43, "เปอร์เซ็นต์": 50.6}
+                ]
+              },
+              "row_count": {
+                "type": "integer",
+                "description": "Total number of rows returned",
+                "example": 2
+              }
+            },
+            "required": ["columns", "rows", "row_count"]
+          }
+        },
+        "required": ["sql_query", "explanation", "results"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string",
+            "description": "Error message describing the issue",
+            "example": "SQL parsing error: No valid SQL query found in model output"
+          }
+        },
+        "required": ["detail"]
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "loc": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {"type": "string"},
+                      {"type": "integer"}
+                    ]
+                  },
+                  "description": "Location of the error"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "Error message"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Error type"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

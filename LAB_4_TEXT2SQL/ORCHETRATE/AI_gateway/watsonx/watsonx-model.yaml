@@ -1,0 +1,9 @@
+spec_version: v1
+kind: model
+name: watsonx/openai/gpt-oss-120b
+display_name: gpt-oss
+description: |
+  IBM watsonx.ai model using Space-scoped configuration.
+model_type: chat
+provider_config:
+  watsonx_project_id: 2256d5db-0028-4632-8069-5e8e564fb355

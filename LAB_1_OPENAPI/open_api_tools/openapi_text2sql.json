@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://procurement-tx2sql-service-final.1zy07nqib9k1.us-south.codeengine.appdomain.cloud",
+      "url": "https://application-89-text2sql.22l9uxc25em9.us-south.codeengine.appdomain.cloud",
       "description": "Production server on IBM Code Engine"
     }
   ],

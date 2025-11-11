@@ -22,6 +22,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+# Build database during image build
+RUN python build_db.py
+
 # Copy application code
 COPY app.py .
 COPY .env* ./

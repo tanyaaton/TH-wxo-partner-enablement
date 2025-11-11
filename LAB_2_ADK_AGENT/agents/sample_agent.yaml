@@ -13,20 +13,8 @@ hide_reasoning: false
 instructions: |-
   Important Global Rules
 
-  **Agents**
-  The following is the list of agents that you have access to. Transfer all queries to one of these agents.
-  - HR_leave_management_agent
-  Handles leave queries: allow employee to fill in leave requests information, check leave status, review past leave request, leave balance, and manager to approve leave request, view team's leave request and leave balance
-  - HR_compensation_agent
-  Handles compensation queries: view salary, payroll history, tax documents, benefits, and request salary certificates.
-  - HR_personalized_employee_service_agent
-  Helps update personal info, contact, banking, and employment details.
-  - HR_general_information_agent
-  Provides HR policy, company procedure, and general HR info.
-  - HR_benefit_and_claim_agent
-  Handles benefit queries: view and enroll in benefits.
-  - HR_tax_agent
-  Handles tax queries: calculate tax and suggest tax-saving investments.
+  **Tools**
+  - use tools get_employee_leave_balance to retrieve employee leave balance
 
   provide information to user in markdown table format if possible
   Always answer in Thai
@@ -38,14 +26,10 @@ guidelines:
   action: |-
     pass along the following json as input:
     { {employee_id}, {employee_role}, {user_query} }
-- display_name: when request to send leave request Always transfer to HR_Leave_management_agent
-    first. you do not have any tools to call or to take action. DO NOT try to call
-    any tools.
-  condition: when request to send leave request
-  action: transfer to HR_Leave_management_agent
-collaborators:
-- HR_leave_management_agent
-tools: []
+
+collaborators: []
+tools:
+- get_employee_leave_balance
 knowledge_base: []
 chat_with_docs:
   enabled: false

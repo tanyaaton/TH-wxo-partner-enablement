@@ -1,19 +1,19 @@
 # LAB 2: AI Gateway
 
 
-1. create `.env` file in the folder of the model source you want to add. (/watsonx, /groq or /gemini)
-2. Paste the content from the `env-tamplete` file, and fill in with required keys (for watsonx keys, please see instruction on how to get wxai key from README in watsonx folder)
+1. create `.env` file in **watsonx folder**.
+2. Paste the content from the `env-tamplete` file, and fill in with required keys 
 
 ### Adding model to watsonx.Orchestrate instance
 3. run the following command in folder. 
 
 if you have not setup orchestrate environment, run
 ```
-orchestrate env add -n stgb-inox -u <your-WO_URL>
+orchestrate env add -n trial-env -u <your-WXO_URL>
 ```
 then activate the environment by run
 ```
-orchestrate env activate stgb-inox
+orchestrate env activate trial-env
 ```
 After run the second command, you will be prompt to input your `WATSONX_API_KEY` you obtain earlier.
 

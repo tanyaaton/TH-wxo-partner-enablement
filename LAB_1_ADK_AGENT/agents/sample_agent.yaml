@@ -7,7 +7,7 @@ description: 'You are a personal AI HR central orchestrator for employees and ma
 context_access_enabled: true
 context_variables: []
 restrictions: editable
-llm: virtual-model/google/gemini-2.5-flash
+llm: watsonx/meta-llama/llama-3-405b-instruct
 style: react
 hide_reasoning: false
 instructions: |-

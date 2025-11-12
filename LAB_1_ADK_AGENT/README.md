@@ -114,9 +114,11 @@ orchestrate agents export -n HR_Agent_id -k native -o HR_AGENT.zip
 ```
 
 ![export agent command](./images/07.png)
+
 ![zip file](./images/08.png)
 
 unzip the **HR_AGENT.zip** 
+
 ![unzip folder](./images/09.png)
 
 

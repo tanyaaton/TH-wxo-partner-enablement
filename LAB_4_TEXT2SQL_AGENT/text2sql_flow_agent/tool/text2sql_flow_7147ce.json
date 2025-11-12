@@ -1,0 +1,365 @@
+{
+  "spec": {
+    "kind": "flow",
+    "name": "Untitled_7246wX",
+    "initiators": [],
+    "description": "query database with sql massage",
+    "display_name": "text2sql_flow",
+    "input_schema": {
+      "type": "object",
+      "required": [
+        "user_input"
+      ],
+      "properties": {
+        "user_input": {
+          "type": "string",
+          "description": "query SELECT massage"
+        }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "output": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    }
+  },
+  "edges": [
+    {
+      "id": "26625d93-c26c-478d-9bb6-c1d1da0c1a2d",
+      "end": "prompt_9d639f2a-00c9-4c19-911e-eb4dad84a310",
+      "start": "__start__"
+    },
+    {
+      "id": "0842663c-e684-44a3-b440-220105ababba",
+      "end": "CodeBlock 1",
+      "start": "tool_e922b2b8-efec-406d-b2cb-01a2da34bbee"
+    },
+    {
+      "id": "2b725274-e2b4-4609-8d9a-351f641f1f7b",
+      "end": "tool_e922b2b8-efec-406d-b2cb-01a2da34bbee",
+      "start": "prompt_9d639f2a-00c9-4c19-911e-eb4dad84a310"
+    },
+    {
+      "id": "8e73a38b-6d78-41d8-bd93-d2348cb7b7e0",
+      "end": "prompt_be836b99-c609-418f-ae3a-407a0c374188",
+      "start": "CodeBlock 1"
+    },
+    {
+      "id": "ef9c6408-f5e3-4b7d-a959-ca004a046fd1",
+      "end": "__end__",
+      "start": "prompt_be836b99-c609-418f-ae3a-407a0c374188"
+    }
+  ],
+  "nodes": {
+    "__end__": {
+      "spec": {
+        "kind": "end",
+        "name": "__end__",
+        "position": {
+          "x": -2,
+          "y": 875
+        }
+      }
+    },
+    "__start__": {
+      "spec": {
+        "kind": "start",
+        "name": "__start__",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    "CodeBlock 1": {
+      "spec": {
+        "fn": "data = flow[\"Execute SQL SELECT query\"].output.data\nself.output.query_output=json.dumps(data)",
+        "kind": "script",
+        "name": "CodeBlock 1",
+        "position": {
+          "x": -1,
+          "y": 543
+        },
+        "display_name": "change format object to text",
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "query_output": {
+              "type": "string",
+              "description": ""
+            }
+          }
+        }
+      }
+    },
+    "tool_e922b2b8-efec-406d-b2cb-01a2da34bbee": {
+      "spec": {
+        "kind": "tool",
+        "name": "tool_e922b2b8-efec-406d-b2cb-01a2da34bbee",
+        "tool": "execute_query:61fd4fbc-9e64-4b57-b1fd-3587b53e7e80",
+        "position": {
+          "x": 0,
+          "y": 365
+        },
+        "description": "Execute a safe, read-only SQL `SELECT` query against the SQLite database (`data.db`). Only SELECT statements are allowed (checked via regex). Any non-SELECT or invalid SQL will return a 400 Bad Request error.",
+        "display_name": "Execute SQL SELECT query",
+        "input_schema": {
+          "type": "object",
+          "required": [
+            "q"
+          ],
+          "properties": {
+            "q": {
+              "in": "query",
+              "type": "string",
+              "title": "q",
+              "aliasName": "q",
+              "description": null
+            }
+          }
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "description": "Query result as a list of row objects."
+            },
+            "rows_returned": {
+              "type": "integer",
+              "description": "Number of rows returned by the query."
+            }
+          }
+        },
+        "error_handler_config": {
+          "max_retries": 0,
+          "error_message": "Something went wrong while running 'Execute SQL SELECT query'",
+          "retry_interval": 1000
+        }
+      },
+      "input_map": {
+        "spec": {
+          "maps": [
+            {
+              "metadata": {
+                "assignmentType": "variable"
+              },
+              "has-no-value": false,
+              "target_variable": "self.input.q",
+              "value_expression": "flow[\"generate SQL query\"].output.sql_select_query_object.sql_select_query"
+            }
+          ],
+          "name": "",
+          "fallback_strategy": "ask_the_user"
+        }
+      }
+    },
+    "prompt_9d639f2a-00c9-4c19-911e-eb4dad84a310": {
+      "spec": {
+        "llm": "watsonx/meta-llama/llama-3-2-90b-vision-instruct",
+        "kind": "prompt",
+        "name": "prompt_9d639f2a-00c9-4c19-911e-eb4dad84a310",
+        "metadata": {
+          "creativity_slider_position": "5",
+          "creativity_slider_manual_override": false
+        },
+        "position": {
+          "x": 0,
+          "y": 158
+        },
+        "test_data": [
+          {
+            "value": "\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e17\u0e35\u0e48\u0e21\u0e32\u0e08\u0e32\u0e01\u0e08\u0e31\u0e07\u0e2b\u0e27\u0e31\u0e14\u0e40\u0e0a\u0e35\u0e22\u0e07\u0e43\u0e2b\u0e21\u0e48\u0e21\u0e35\u0e01\u0e35\u0e48\u0e04\u0e19\u0e41\u0e25\u0e30\u0e41\u0e1a\u0e48\u0e07\u0e15\u0e32\u0e21\u0e23\u0e30\u0e14\u0e31\u0e1a\u0e0a\u0e31\u0e49\u0e19\u0e40\u0e23\u0e35\u0e22\u0e19\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e44\u0e23",
+            "source": "self.input.user_input"
+          }
+        ],
+        "description": "",
+        "user_prompt": "{self.input.user_input}",
+        "display_name": "generate SQL query",
+        "input_schema": {
+          "type": "object",
+          "required": [
+            "user_input"
+          ],
+          "properties": {
+            "user_input": {
+              "type": "string",
+              "description": "user text input"
+            }
+          }
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "sql_select_query_object": {
+              "type": "object",
+              "properties": {
+                "sql_select_query": {
+                  "type": "string"
+                }
+              },
+              "description": ""
+            }
+          }
+        },
+        "system_prompt": "You are a senior SQL expert. Convert the user's natural language question into a SQL query for a SQLite database with this schema:\n\n  TABLE STUDENT (\n    \u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27 TEXT,           -- Student ID\n    \u0e0a\u0e31\u0e49\u0e19 TEXT,                  -- Class/Grade level\n    \u0e2b\u0e49\u0e2d\u0e07 TEXT,                  -- Room number\n    \u0e40\u0e25\u0e02\u0e17\u0e35\u0e48 INTEGER,             -- Student number in room\n    \u0e27\u0e31\u0e19\u0e40\u0e01\u0e34\u0e14 DATE,               -- Birth date\n    \u0e04\u0e33\u0e19\u0e33\u0e2b\u0e19\u0e49\u0e32 TEXT,              -- Title (Mr./Ms./etc.)\n    \u0e0a\u0e37\u0e48\u0e2d TEXT,                  -- First name\n    \u0e19\u0e32\u0e21\u0e2a\u0e01\u0e38\u0e25 TEXT,               -- Last name\n    \u0e40\u0e1e\u0e28 TEXT,                   -- Gender\n    name TEXT,                  -- English first name\n    surname TEXT,               -- English last name\n    \u0e15\u0e33\u0e1a\u0e25 TEXT,                  -- Sub-district, always start with \u0e15. (eg. \u0e15.\u0e2a\u0e31\u0e19\u0e01\u0e25\u0e32\u0e07)\n    \u0e2d\u0e33\u0e40\u0e20\u0e2d TEXT,                 -- District, always start with \u0e2d. (eg. \u0e2d.\u0e40\u0e21\u0e37\u0e2d\u0e07\u0e40\u0e0a\u0e35\u0e22\u0e07\u0e43\u0e2b\u0e21\u0e48)\n    \u0e08\u0e31\u0e07\u0e2b\u0e27\u0e31\u0e14 TEXT,               -- Province, always start with \u0e08. (eg. \u0e08.\u0e40\u0e0a\u0e35\u0e22\u0e07\u0e43\u0e2b\u0e21\u0e48)\n    \u0e40\u0e0a\u0e37\u0e49\u0e2d\u0e0a\u0e32\u0e15\u0e34 TEXT,              -- Ethnicity\n    \u0e2a\u0e31\u0e0d\u0e0a\u0e32\u0e15\u0e34 TEXT,               -- Nationality\n    \u0e28\u0e32\u0e2a\u0e19\u0e32 TEXT,                 -- Religion\n    \u0e23\u0e32\u0e22\u0e44\u0e14\u0e49\u0e15\u0e48\u0e2d\u0e1b\u0e35\u0e02\u0e2d\u0e07\u0e1a\u0e34\u0e14\u0e32 REAL,     -- Father's annual income\n    \u0e23\u0e32\u0e22\u0e44\u0e14\u0e49\u0e15\u0e48\u0e2d\u0e1b\u0e35\u0e02\u0e2d\u0e07\u0e21\u0e32\u0e23\u0e14\u0e32 REAL,    -- Mother's annual income\n    \u0e23\u0e32\u0e22\u0e44\u0e14\u0e49\u0e15\u0e48\u0e2d\u0e1b\u0e35\u0e02\u0e2d\u0e07\u0e1c\u0e39\u0e49\u0e1b\u0e01\u0e04\u0e23\u0e2d\u0e07 REAL, -- Guardian's annual income\n    \u0e2d\u0e32\u0e0a\u0e35\u0e1e\u0e02\u0e2d\u0e07\u0e1a\u0e34\u0e14\u0e32 TEXT,          -- Father's occupation, all the possible values: \u0e23\u0e31\u0e1a\u0e23\u0e32\u0e0a\u0e01\u0e32\u0e23, \u0e04\u0e49\u0e32\u0e02\u0e32\u0e22, \u0e1e\u0e19\u0e31\u0e01\u0e07\u0e32\u0e19\u0e1a\u0e23\u0e34\u0e29\u0e31\u0e17\u0e40\u0e2d\u0e01\u0e0a\u0e19, \u0e23\u0e31\u0e10\u0e27\u0e34\u0e2a\u0e32\u0e2b\u0e01\u0e34\u0e08, \u0e18\u0e38\u0e23\u0e01\u0e34\u0e08\u0e2a\u0e48\u0e27\u0e19\u0e15\u0e31\u0e27, \u0e44\u0e21\u0e48\u0e23\u0e30\u0e1a\u0e38, \u0e40\u0e01\u0e29\u0e15\u0e23\u0e01\u0e23, \u0e2d\u0e32\u0e0a\u0e35\u0e1e\u0e2d\u0e34\u0e2a\u0e23\u0e30/\u0e23\u0e31\u0e1a\u0e08\u0e49\u0e32\u0e07\u0e17\u0e31\u0e48\u0e27\u0e44\u0e1b\n    \u0e2d\u0e32\u0e0a\u0e35\u0e1e\u0e02\u0e2d\u0e07\u0e21\u0e32\u0e23\u0e14\u0e32 TEXT,         -- Mother's occupation, all the possible values: \u0e23\u0e31\u0e1a\u0e23\u0e32\u0e0a\u0e01\u0e32\u0e23, \u0e04\u0e49\u0e32\u0e02\u0e32\u0e22, \u0e1e\u0e19\u0e31\u0e01\u0e07\u0e32\u0e19\u0e1a\u0e23\u0e34\u0e29\u0e31\u0e17\u0e40\u0e2d\u0e01\u0e0a\u0e19, \u0e23\u0e31\u0e10\u0e27\u0e34\u0e2a\u0e32\u0e2b\u0e01\u0e34\u0e08, \u0e18\u0e38\u0e23\u0e01\u0e34\u0e08\u0e2a\u0e48\u0e27\u0e19\u0e15\u0e31\u0e27, \u0e44\u0e21\u0e48\u0e23\u0e30\u0e1a\u0e38, \u0e40\u0e01\u0e29\u0e15\u0e23\u0e01\u0e23, \u0e2d\u0e32\u0e0a\u0e35\u0e1e\u0e2d\u0e34\u0e2a\u0e23\u0e30/\u0e23\u0e31\u0e1a\u0e08\u0e49\u0e32\u0e07\u0e17\u0e31\u0e48\u0e27\u0e44\u0e1b\n    \u0e2d\u0e32\u0e0a\u0e35\u0e1e\u0e02\u0e2d\u0e07\u0e1c\u0e39\u0e49\u0e1b\u0e01\u0e04\u0e23\u0e2d\u0e07 TEXT,      -- Guardian's occupation\n    \u0e2a\u0e16\u0e32\u0e19\u0e30\u0e20\u0e32\u0e1e\u0e04\u0e23\u0e2d\u0e1a\u0e04\u0e23\u0e31\u0e27 TEXT,       -- Family status\n    ra TEXT,                    -- Additional field\n    \u0e08\u0e33\u0e19\u0e27\u0e19\u0e1e\u0e35\u0e48\u0e19\u0e49\u0e2d\u0e07\u0e43\u0e19\u0e04\u0e23\u0e2d\u0e1a\u0e04\u0e23\u0e31\u0e27 INTEGER, -- Number of siblings\n    \u0e1a\u0e38\u0e04\u0e04\u0e25\u0e17\u0e35\u0e48\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e1e\u0e31\u0e01\u0e2d\u0e32\u0e28\u0e31\u0e22 TEXT, -- Person student lives with\n    \u0e01\u0e23\u0e38\u0e4a\u0e1b\u0e40\u0e25\u0e37\u0e2d\u0e14 TEXT,             -- Blood group\n    \u0e41\u0e1c\u0e19\u0e01\u0e32\u0e23\u0e40\u0e23\u0e35\u0e22\u0e19 TEXT,           -- Study plan\n    \u0e0a\u0e37\u0e48\u0e2d\u0e1a\u0e34\u0e14\u0e32 TEXT,              -- Father's name\n    \u0e19\u0e32\u0e21\u0e2a\u0e01\u0e38\u0e25\u0e1a\u0e34\u0e14\u0e32 TEXT,           -- Father's surname\n    \u0e0a\u0e37\u0e48\u0e2d\u0e21\u0e32\u0e23\u0e14\u0e32 TEXT,             -- Mother's name\n    \u0e19\u0e32\u0e21\u0e2a\u0e01\u0e38\u0e25\u0e21\u0e32\u0e23\u0e14\u0e32 TEXT,          -- Mother's surname\n    \u0e40\u0e1a\u0e2d\u0e23\u0e4c\u0e42\u0e17\u0e23\u0e28\u0e31\u0e1e\u0e17\u0e4c\u0e1a\u0e34\u0e14\u0e32 TEXT,      -- Father's phone\n    \u0e40\u0e1a\u0e2d\u0e23\u0e4c\u0e42\u0e17\u0e23\u0e28\u0e31\u0e1e\u0e17\u0e4c\u0e21\u0e32\u0e23\u0e14\u0e32 TEXT,     -- Mother's phone\n    \u0e40\u0e1a\u0e2d\u0e23\u0e4c\u0e42\u0e17\u0e23\u0e28\u0e31\u0e1e\u0e17\u0e4c\u0e1c\u0e39\u0e49\u0e1b\u0e01\u0e04\u0e23\u0e2d\u0e07 TEXT,  -- Guardian's phone\n    \u0e42\u0e23\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19\u0e40\u0e14\u0e34\u0e21 TEXT,          -- Previous school\n    \u0e0a\u0e31\u0e49\u0e19\u0e17\u0e35\u0e48\u0e08\u0e1a\u0e21\u0e32 TEXT,           -- Previous grade completed\n    \u0e08\u0e31\u0e07\u0e2b\u0e27\u0e31\u0e14\u0e17\u0e35\u0e48\u0e08\u0e1a\u0e21\u0e32 TEXT,        -- Province of previous school\n    \u0e20\u0e39\u0e21\u0e34\u0e25\u0e33\u0e40\u0e19\u0e32 TEXT,             -- Hometown\n    \u0e1b\u0e35\u0e17\u0e35\u0e48\u0e40\u0e02\u0e49\u0e32\u0e40\u0e23\u0e35\u0e22\u0e19 INTEGER,      -- Year enrolled\n    \u0e27\u0e31\u0e19\u0e17\u0e35\u0e48\u0e40\u0e02\u0e49\u0e32\u0e40\u0e23\u0e35\u0e22\u0e19 DATE,        -- Date enrolled\n    source_year TEXT            -- Source file year\n  );\n\n  TABLE ATTENDANCE (\n    \u0e27\u0e31\u0e19\u0e17\u0e35\u0e48 DATE,                -- Date\n    \u0e1b\u0e35\u0e01\u0e32\u0e23\u0e28\u0e36\u0e01\u0e29\u0e32 INTEGER,         -- Academic year in Gregorian calendar years (e.g., 2019, 2020, 2024)\n    \u0e20\u0e32\u0e04\u0e40\u0e23\u0e35\u0e22\u0e19 INTEGER,           -- Semester/Term\n    \u0e23\u0e2b\u0e31\u0e2a\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19 TEXT,          -- Student ID\n    \u0e1b\u0e23\u0e30\u0e40\u0e20\u0e17 TEXT,               -- Type (\u0e02\u0e32\u0e14\u0e40\u0e23\u0e35\u0e22\u0e19, \u0e21\u0e32\u0e40\u0e23\u0e35\u0e22\u0e19 (\u0e2d\u0e2d\u0e19\u0e44\u0e25\u0e19\u0e4c), \u0e25\u0e32\u0e01\u0e34\u0e08\u0e04\u0e23\u0e36\u0e48\u0e07\u0e27\u0e31\u0e19, \u0e25\u0e32\u0e01\u0e34\u0e08\u0e40\u0e15\u0e47\u0e21\u0e27\u0e31\u0e19, \u0e25\u0e32\u0e1b\u0e48\u0e27\u0e22\u0e04\u0e23\u0e36\u0e48\u0e07\u0e27\u0e31\u0e19, \u0e25\u0e32\u0e1b\u0e48\u0e27\u0e22\u0e40\u0e15\u0e47\u0e21\u0e27\u0e31\u0e19, \u0e2a\u0e32\u0e22)\n    source_year TEXT           -- Source file year\n  );\n\n  TABLE FOOD (\n    transaction_date DATE,      -- Transaction date\n    product_id TEXT,           -- Product/Menu ID\n    product_name TEXT,         -- Product/Menu name\n    product_categories TEXT,   -- Product category (\u0e02\u0e19\u0e21, \u0e2d\u0e37\u0e48\u0e19\u0e46, \u0e2d\u0e38\u0e1b\u0e01\u0e23\u0e13\u0e4c\u0e01\u0e35\u0e2c\u0e32, \u0e2d\u0e38\u0e1b\u0e01\u0e23\u0e13\u0e4c\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19, \u0e2d\u0e38\u0e1b\u0e01\u0e23\u0e13\u0e4c\u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e40\u0e02\u0e35\u0e22\u0e19, \u0e2d\u0e38\u0e1b\u0e42\u0e20\u0e04, \u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e14\u0e37\u0e48\u0e21, \u0e44\u0e2d\u0e28\u0e01\u0e23\u0e35\u0e21, \u0e1c\u0e25\u0e44\u0e21\u0e49, \u0e2d\u0e32\u0e2b\u0e32\u0e23, \u0e2d\u0e32\u0e2b\u0e32\u0e23\u0e17\u0e32\u0e19\u0e40\u0e25\u0e48\u0e19, \u0e40\u0e1a\u0e40\u0e01\u0e2d\u0e23\u0e35\u0e48)\n    amount REAL,               -- Quantity\n    unit_price REAL,           -- Unit price, in Thai baht\n    total_price REAL,          -- Total price, in Thai baht\n    source TEXT,               -- Type (minimart, online, canteen)\n  );\n\n  TABLE LIBRARY (\n    \u0e27\u0e31\u0e19\u0e40\u0e27\u0e25\u0e32\u0e17\u0e35\u0e48\u0e40\u0e02\u0e49\u0e32\u0e2b\u0e49\u0e2d\u0e07\u0e2a\u0e21\u0e38\u0e14 DATETIME,  -- Date and time of library visit\n    \u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19 TEXT,       -- Student ID\n    file_year TEXT                -- Source file year\n  );\n\n  TABLE SCORING (\n    \u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19 TEXT,  -- Student ID\n    \u0e1b\u0e35\u0e01\u0e32\u0e23\u0e28\u0e36\u0e01\u0e29\u0e32 INTEGER,        -- Academic year in Gregorian calendar years (e.g., 2019, 2020, 2024)\n    \u0e04\u0e30\u0e41\u0e19\u0e19\u0e40\u0e15\u0e47\u0e21 REAL,            -- Maximum score\n    \u0e04\u0e30\u0e41\u0e19\u0e19\u0e17\u0e35\u0e48\u0e44\u0e14\u0e49 REAL,          -- Score obtained\n    \u0e23\u0e49\u0e2d\u0e22\u0e25\u0e30 REAL,               -- Percentage\n    \u0e40\u0e01\u0e23\u0e14 TEXT,                 -- Grade, as in number of grade (4, 3.5, 3, 2.5, 2, 1.5, 1, 0)\n    \u0e23\u0e2b\u0e31\u0e2a\u0e27\u0e34\u0e0a\u0e32 TEXT,             -- Subject code\n    \u0e0a\u0e37\u0e48\u0e2d\u0e27\u0e34\u0e0a\u0e32 TEXT,             -- Subject name (Thai)\n    \u0e0a\u0e37\u0e48\u0e2d\u0e27\u0e34\u0e0a\u0e32\u0e20\u0e32\u0e29\u0e32\u0e2d\u0e31\u0e07\u0e01\u0e24\u0e29 TEXT    -- Subject name (English)\n  );\n\n  TABLE SEMESTER_FEE (\n    \u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27 TEXT,         -- ID/Code number\n    \u0e1b\u0e35\u0e01\u0e32\u0e23\u0e28\u0e36\u0e01\u0e29\u0e32 INTEGER,        -- Academic year (e.g., 2020)\n    \u0e20\u0e32\u0e04\u0e40\u0e23\u0e35\u0e22\u0e19 INTEGER,          -- Semester/Term number\n    \u0e08\u0e33\u0e19\u0e27\u0e19\u0e40\u0e07\u0e34\u0e19 REAL,            -- Amount of money/fee\n    \u0e0a\u0e33\u0e23\u0e30\u0e41\u0e25\u0e49\u0e27 REAL,             -- Amount already paid\n    \u0e04\u0e49\u0e32\u0e07\u0e0a\u0e33\u0e23\u0e30 REAL                -- remaning balance/unpaid amount\n  );\n\n  TABLE HOSPITAL (\n    \u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19,     -- Student ID\n    \u0e27\u0e31\u0e19\u0e17\u0e35\u0e48\u0e43\u0e0a\u0e49\u0e1a\u0e23\u0e34\u0e01\u0e32\u0e23,           -- Service date\n    \u0e40\u0e27\u0e25\u0e32,                   -- Time\n    \u0e1b\u0e23\u0e30\u0e40\u0e20\u0e17,               -- Type of service, all the possible values: \u0e40\u0e25\u0e37\u0e2d\u0e14\u0e01\u0e33\u0e40\u0e14\u0e32, \u0e15\u0e32\u0e40\u0e08\u0e47\u0e1a \u0e15\u0e32\u0e41\u0e14\u0e07, \u0e41\u0e21\u0e25\u0e07\u0e01\u0e31\u0e14\u0e15\u0e48\u0e2d\u0e22, \u0e23\u0e30\u0e1a\u0e1a\u0e17\u0e32\u0e07\u0e40\u0e14\u0e34\u0e19\u0e2d\u0e32\u0e2b\u0e32\u0e23, \u0e40\u0e1b\u0e47\u0e19\u0e41\u0e1c\u0e25, \u0e40\u0e04\u0e25\u0e47\u0e14 \u0e22\u0e2d\u0e01 \u0e0a\u0e49\u0e33 \u0e1a\u0e27\u0e21, \u0e40\u0e27\u0e35\u0e22\u0e19\u0e28\u0e35\u0e23\u0e29\u0e30 \u0e40\u0e1b\u0e47\u0e19\u0e25\u0e21, \u0e44\u0e02\u0e49-\u0e2b\u0e27\u0e31\u0e14-\u0e44\u0e2d -\u0e40\u0e08\u0e47\u0e1a\u0e04\u0e2d, \u0e1b\u0e27\u0e14\u0e28\u0e35\u0e23\u0e29\u0e30, \u0e40\u0e1b\u0e47\u0e19\u0e1c\u0e37\u0e48\u0e19, \u0e1b\u0e27\u0e14\u0e2b\u0e39, \u0e2d\u0e38\u0e1a\u0e31\u0e15\u0e34\u0e40\u0e2b\u0e15\u0e38 (case refer), \u0e1b\u0e27\u0e14\u0e1f\u0e31\u0e19 \u0e41\u0e1c\u0e25\u0e43\u0e19\u0e1b\u0e32\u0e01, \u0e1b\u0e27\u0e14\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e40\u0e14\u0e37\u0e2d\u0e19, \u0e2d\u0e37\u0e48\u0e19\u0e46, \u0e02\u0e2d\u0e2d\u0e38\u0e1b\u0e01\u0e23\u0e13\u0e4c\u0e17\u0e32\u0e07\u0e01\u0e32\u0e23\u0e41\u0e1e\u0e17\u0e22\u0e4c, null\n    \u0e23\u0e32\u0e22\u0e25\u0e30\u0e40\u0e2d\u0e35\u0e22\u0e14,        -- Details, The \u0e23\u0e32\u0e22\u0e25\u0e30\u0e40\u0e2d\u0e35\u0e22\u0e14 (details) column in the HOSPITAL table might contains place where the incident occurred. Common locations mentioned include: \u0e2d\u0e31\u0e12\u0e08\u0e31\u0e19\u0e17\u0e23\u0e4c\u0e27\u0e07\u0e01\u0e25\u0e21, \u0e15\u0e36\u0e01\u0e21\u0e07\u0e1f\u0e2d\u0e23\u0e4c\u0e15, \u0e2a\u0e19\u0e32\u0e21\u0e1f\u0e38\u0e15\u0e1a\u0e2d\u0e25, \u0e2b\u0e49\u0e2d\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19, \u0e42\u0e23\u0e07\u0e2d\u0e32\u0e2b\u0e32\u0e23, \u0e2b\u0e49\u0e2d\u0e07\u0e2a\u0e21\u0e38\u0e14, \u0e21\u0e34\u0e19\u0e34\u0e21\u0e32\u0e23\u0e4c\u0e17, \u0e2a\u0e23\u0e30\u0e27\u0e48\u0e32\u0e22\u0e19\u0e49\u0e33, \u0e25\u0e32\u0e19\u0e08\u0e2d\u0e14\u0e23\u0e16, \u0e15\u0e36\u0e01\u0e2a\u0e32\u0e21\u0e31\u0e04\u0e04\u0e35\u0e19\u0e24\u0e21\u0e34\u0e15, \u0e25\u0e32\u0e19\u0e2d\u0e40\u0e19\u0e01\u0e1b\u0e23\u0e30\u0e2a\u0e07\u0e04\u0e4c\u0e01\u0e23\u0e35\u0e19\u0e42\u0e14\u0e21, \u0e2d\u0e32\u0e04\u0e32\u0e23\u0e40\u0e0b\u0e19\u0e15\u0e4c\u0e04\u0e32\u0e40\u0e1a\u0e23\u0e35\u0e22\u0e25, etc.\n    \u0e1b\u0e35\u0e01\u0e32\u0e23\u0e28\u0e36\u0e01\u0e29\u0e32         -- Academic year\n  );\n\n  Guidelines:\n  - SQLite-compatible SQL only.\n  - When using aggregate functions like GROUP_CONCAT(DISTINCT ...), ensure that only one argument (one column or one expression) is provided inside the DISTINCT. If you need to combine multiple columns, concatenate them into a single string first (e.g., (col1 || ' ' || col2)), then use DISTINCT on the result. SQLite does not allow DISTINCT with multiple arguments in aggregate functions.\n  - Your query must start with SELECT and does not contain any other SQL commands. (e.g., no INSERT, UPDATE, DELETE, CREATE, DROP, etc.)\n  - Do not use WITH (Common Table Expressions/CTEs). Write all queries using only SELECT, subqueries, and derived tables. Avoid starting queries with WITH.\n  - If your query uses UNION or UNION ALL, you must not put ORDER BY before or between any UNION/UNION ALL statements. The ORDER BY clause must come only once, after all UNION/UNION ALL statements, at the very end of the query. Do not generate ORDER BY in any subquery or before a UNION/UNION ALL.\n  - Use JOINs when connecting tables:\n    * STUDENT.\u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27 = ATTENDANCE.\u0e23\u0e2b\u0e31\u0e2a\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\n    * STUDENT.\u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27 = LIBRARY.\u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\n    * STUDENT.\u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27 = SCORING.\u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\n    * STUDENT.\u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27 = SEMMESTER_FEE.\u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27\u0e19\n    * FOOD.student_id can join with STUDENT.\u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27 (when not NULL)\n  - For substring search (e.g., religion contains \u0e04\u0e23\u0e34\u0e2a\u0e15\u0e4c), use: \u0e28\u0e32\u0e2a\u0e19\u0e32 LIKE '%\u0e04\u0e23\u0e34\u0e2a\u0e15\u0e4c%'\n  - For gender filtering: \u0e40\u0e1e\u0e28 = '\u0e0a\u0e32\u0e22' (male) or \u0e40\u0e1e\u0e28 = '\u0e2b\u0e0d\u0e34\u0e07' (female)\n  - For attendance types: \u0e1b\u0e23\u0e30\u0e40\u0e20\u0e17 = \u0e02\u0e32\u0e14\u0e40\u0e23\u0e35\u0e22\u0e19, \u0e21\u0e32\u0e40\u0e23\u0e35\u0e22\u0e19 (\u0e2d\u0e2d\u0e19\u0e44\u0e25\u0e19\u0e4c), \u0e25\u0e32\u0e01\u0e34\u0e08\u0e04\u0e23\u0e36\u0e48\u0e07\u0e27\u0e31\u0e19, \u0e25\u0e32\u0e01\u0e34\u0e08\u0e40\u0e15\u0e47\u0e21\u0e27\u0e31\u0e19, \u0e25\u0e32\u0e1b\u0e48\u0e27\u0e22\u0e04\u0e23\u0e36\u0e48\u0e07\u0e27\u0e31\u0e19, \u0e25\u0e32\u0e1b\u0e48\u0e27\u0e22\u0e40\u0e15\u0e47\u0e21\u0e27\u0e31\u0e19, \u0e2a\u0e32\u0e22\n  - Date columns should use SQLite date functions when needed (DATE(), DATETIME(), etc.)\n  - Use proper Thai column names in square brackets when they contain spaces or special characters\n  - If ambiguous, choose the most reasonable interpretation.\n  - Some fields may have fixed set of possible values use them if known.\n  - for hospital table, when ask about place of accident, search in \u0e23\u0e32\u0e22\u0e25\u0e30\u0e40\u0e2d\u0e35\u0e22\u0e14 column. how every it is not in fix format so use LIKE '%place%' to search for it.\n  - When asked about the physical place or area where an incident occurred (e.g., field, classroom, canteen), do not simply group by the entire \u0e23\u0e32\u0e22\u0e25\u0e30\u0e40\u0e2d\u0e35\u0e22\u0e14 (details) column. Instead, extract or match only known place names or keywords from \u0e23\u0e32\u0e22\u0e25\u0e30\u0e40\u0e2d\u0e35\u0e22\u0e14 that represent actual locations within the school.\n    and search field \u0e23\u0e32\u0e22\u0e25\u0e30\u0e40\u0e2d\u0e35\u0e22\u0e14 using common location keywords such as: \u0e2d\u0e31\u0e12\u0e08\u0e31\u0e19\u0e17\u0e23\u0e4c\u0e27\u0e07\u0e01\u0e25\u0e21, \u0e15\u0e36\u0e01\u0e21\u0e07\u0e1f\u0e2d\u0e23\u0e4c\u0e15, \u0e2a\u0e19\u0e32\u0e21\u0e1f\u0e38\u0e15\u0e1a\u0e2d\u0e25, \u0e2b\u0e49\u0e2d\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19, \u0e42\u0e23\u0e07\u0e2d\u0e32\u0e2b\u0e32\u0e23, \u0e2b\u0e49\u0e2d\u0e07\u0e2a\u0e21\u0e38\u0e14, \u0e21\u0e34\u0e19\u0e34\u0e21\u0e32\u0e23\u0e4c\u0e17, \u0e2a\u0e23\u0e30\u0e27\u0e48\u0e32\u0e22\u0e19\u0e49\u0e33, \u0e25\u0e32\u0e19\u0e08\u0e2d\u0e14\u0e23\u0e16, \u0e15\u0e36\u0e01\u0e2a\u0e32\u0e21\u0e31\u0e04\u0e04\u0e35\u0e19\u0e24\u0e21\u0e34\u0e15, \u0e25\u0e32\u0e19\u0e2d\u0e40\u0e19\u0e01\u0e1b\u0e23\u0e30\u0e2a\u0e07\u0e04\u0e4c\u0e01\u0e23\u0e35\u0e19\u0e42\u0e14\u0e21, \u0e2d\u0e32\u0e04\u0e32\u0e23\u0e40\u0e0b\u0e19\u0e15\u0e4c\u0e04\u0e32\u0e40\u0e1a\u0e23\u0e35\u0e22\u0e25, etc.\n  - Academic year (\u0e1b\u0e35\u0e01\u0e32\u0e23\u0e28\u0e36\u0e01\u0e29\u0e32) column in SCORING is stored as Gregorian calendar years (e.g., 2024) if user input contain Buddhist calendar years (e.g., 2567). Always convert user input years to Gregorian before filtering.\n  - This helps prevent missing results due to calendar system or formatting inconsistencies.\n\n  Common query patterns:\n  - Student demographics: SELECT from STUDENT table\n  - Academic performance: JOIN STUDENT with SCORING\n  - Attendance patterns: JOIN STUDENT with ATTENDANCE\n  - Library usage: JOIN STUDENT with LIBRARY\n  - Food purchases: SELECT from FOOD (with optional JOIN to STUDENT when student_id IS NOT NULL)\n  - Health records: JOIN STUDENT with HOSPITAL\n\n  Generate ONLY with a valid SQL query. No explanation, no markdown, no extra text - just the SQL query.\nreturn query in the following json format:\n{self.input.\n  \"sql_select_query\": {\n    \"type\": \"string\"\n  }\n}\n\n\n",
+        "llm_parameters": {
+          "top_k": 30,
+          "top_p": 0.7,
+          "temperature": 0.4,
+          "max_new_tokens": 200,
+          "min_new_tokens": 50,
+          "stop_sequences": [
+            "Human",
+            "AI"
+          ]
+        },
+        "prompt_examples": [
+          {
+            "input": "\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e17\u0e35\u0e48\u0e21\u0e32\u0e08\u0e32\u0e01\u0e08\u0e31\u0e07\u0e2b\u0e27\u0e31\u0e14\u0e40\u0e0a\u0e35\u0e22\u0e07\u0e43\u0e2b\u0e21\u0e48\u0e21\u0e35\u0e01\u0e35\u0e48\u0e04\u0e19\u0e41\u0e25\u0e30\u0e41\u0e1a\u0e48\u0e07\u0e15\u0e32\u0e21\u0e23\u0e30\u0e14\u0e31\u0e1a\u0e0a\u0e31\u0e49\u0e19\u0e40\u0e23\u0e35\u0e22\u0e19\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e44\u0e23",
+            "enabled": true,
+            "expected_output": "SELECT COUNT(\u0e23\u0e2b\u0e31\u0e2a\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27) AS \u0e08\u0e33\u0e19\u0e27\u0e19, \u0e0a\u0e31\u0e49\u0e19 FROM STUDENT WHERE \u0e08\u0e31\u0e07\u0e2b\u0e27\u0e31\u0e14 = '\u0e08.\u0e40\u0e0a\u0e35\u0e22\u0e07\u0e43\u0e2b\u0e21\u0e48' GROUP BY \u0e0a\u0e31\u0e49\u0e19"
+          }
+        ],
+        "error_handler_config": {
+          "max_retries": 0,
+          "error_message": "Something went wrong while running 'generate SQL query'",
+          "retry_interval": 1000
+        },
+        "include_agent_context": false
+      },
+      "input_map": {
+        "spec": {
+          "maps": [],
+          "name": "",
+          "fallback_strategy": "ask_the_user"
+        }
+      }
+    },
+    "prompt_be836b99-c609-418f-ae3a-407a0c374188": {
+      "spec": {
+        "llm": "watsonx/ibm/granite-4-h-small",
+        "kind": "prompt",
+        "name": "prompt_be836b99-c609-418f-ae3a-407a0c374188",
+        "metadata": {
+          "creativity_slider_position": "5",
+          "creativity_slider_manual_override": false
+        },
+        "position": {
+          "x": 0,
+          "y": 729
+        },
+        "test_data": [
+          {
+            "value": "[{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":402,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.1\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":412,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.2\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":378,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.3\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":375,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.4\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":388,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.5\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":356,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.6\"}]",
+            "source": "flow[\"change format object to text\"].output.query_output"
+          },
+          {
+            "value": "\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e17\u0e35\u0e48\u0e21\u0e32\u0e08\u0e32\u0e01\u0e08\u0e31\u0e07\u0e2b\u0e27\u0e31\u0e14\u0e40\u0e0a\u0e35\u0e22\u0e07\u0e43\u0e2b\u0e21\u0e48\u0e21\u0e35\u0e01\u0e35\u0e48\u0e04\u0e19\u0e41\u0e25\u0e30\u0e41\u0e1a\u0e48\u0e07\u0e15\u0e32\u0e21\u0e23\u0e30\u0e14\u0e31\u0e1a\u0e0a\u0e31\u0e49\u0e19\u0e40\u0e23\u0e35\u0e22\u0e19\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e44\u0e23\n",
+            "source": "flow.input.user_input"
+          }
+        ],
+        "description": "",
+        "user_prompt": "user question: {flow.input.user_input}\nquery output: {flow[\"change format object to text\"].output.query_output}",
+        "display_name": "Generative prompt",
+        "input_schema": {
+          "type": "object",
+          "required": [],
+          "properties": {}
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string",
+              "description": "The output result as a string."
+            }
+          }
+        },
+        "system_prompt": "Your task is to change the user query and json string format query result into either \n- short answer massage for simple question\n- markdown table format for query response with more than 3 lines of data\nprovide also explanation of the result to answer the user questions.",
+        "llm_parameters": {
+          "top_k": 30,
+          "top_p": 0.7,
+          "temperature": 0.4,
+          "max_new_tokens": 200,
+          "min_new_tokens": 50,
+          "stop_sequences": [
+            "Human",
+            "AI"
+          ]
+        },
+        "prompt_examples": [
+          {
+            "input": "user question: \u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e17\u0e35\u0e48\u0e21\u0e32\u0e08\u0e32\u0e01\u0e08\u0e31\u0e07\u0e2b\u0e27\u0e31\u0e14\u0e40\u0e0a\u0e35\u0e22\u0e07\u0e43\u0e2b\u0e21\u0e48\u0e21\u0e35\u0e01\u0e35\u0e48\u0e04\u0e19\u0e41\u0e25\u0e30\u0e41\u0e1a\u0e48\u0e07\u0e15\u0e32\u0e21\u0e23\u0e30\u0e14\u0e31\u0e1a\u0e0a\u0e31\u0e49\u0e19\u0e40\u0e23\u0e35\u0e22\u0e19\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e44\u0e23\n\nquery output: [{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":402,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.1\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":412,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.2\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":378,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.3\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":375,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.4\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":388,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.5\"},{\"\u0e08\u0e33\u0e19\u0e27\u0e19\":356,\"\u0e0a\u0e31\u0e49\u0e19\":\"\u0e1b.6\"}]",
+            "enabled": true,
+            "expected_output": "| \u0e23\u0e30\u0e14\u0e31\u0e1a\u0e0a\u0e31\u0e49\u0e19 | \u0e08\u0e33\u0e19\u0e27\u0e19\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e08\u0e32\u0e01\u0e08\u0e31\u0e07\u0e2b\u0e27\u0e31\u0e14\u0e40\u0e0a\u0e35\u0e22\u0e07\u0e43\u0e2b\u0e21\u0e48 |\n|------------|-----------------------------------|\n| \u0e1b.1        | 402                               |\n| \u0e1b.2        | 412                               |\n| \u0e1b.3        | 378                               |\n| \u0e1b.4        | 375                               |\n| \u0e1b.5        | 388                               |\n| \u0e1b.6        | 356                               |\n\n\u0e08\u0e32\u0e01\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25\u0e17\u0e35\u0e48\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a \u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e17\u0e35\u0e48\u0e21\u0e32\u0e08\u0e32\u0e01\u0e08\u0e31\u0e07\u0e2b\u0e27\u0e31\u0e14\u0e40\u0e0a\u0e35\u0e22\u0e07\u0e43\u0e2b\u0e21\u0e48\u0e21\u0e35\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14 2,311 \u0e04\u0e19 \u0e41\u0e1a\u0e48\u0e07\u0e15\u0e32\u0e21\u0e23\u0e30\u0e14\u0e31\u0e1a\u0e0a\u0e31\u0e49\u0e19\u0e40\u0e23\u0e35\u0e22\u0e19\u0e14\u0e31\u0e07\u0e19\u0e35\u0e49"
+          }
+        ],
+        "error_handler_config": {
+          "max_retries": 0,
+          "error_message": "Something went wrong while running 'Generative prompt'",
+          "retry_interval": 1000
+        },
+        "include_agent_context": false
+      },
+      "input_map": {
+        "spec": {
+          "maps": [],
+          "name": "",
+          "fallback_strategy": "ask_the_user"
+        }
+      }
+    }
+  },
+  "schemas": {},
+  "metadata": {
+    "source_kind": "ui"
+  },
+  "output_map": {
+    "spec": {
+      "maps": [
+        {
+          "metadata": {
+            "assignmentType": "blank"
+          },
+          "has-no-value": true,
+          "target_variable": "self.output.query_db_result",
+          "value_expression": ""
+        },
+        {
+          "metadata": {
+            "assignmentType": "blank"
+          },
+          "has-no-value": true,
+          "target_variable": "self.output.query_result_object.query_result_db",
+          "value_expression": ""
+        },
+        {
+          "metadata": {
+            "assignmentType": "literal"
+          },
+          "has-no-value": false,
+          "target_variable": "self.output.query_result_object",
+          "value_expression": "{}"
+        },
+        {
+          "metadata": {
+            "assignmentType": "variable"
+          },
+          "has-no-value": false,
+          "target_variable": "self.output.output",
+          "value_expression": "flow[\"Generative prompt\"].output.value"
+        }
+      ],
+      "name": "",
+      "fallback_strategy": "ask_the_user"
+    }
+  }
+}

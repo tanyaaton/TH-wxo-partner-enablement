@@ -22,13 +22,14 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Build database during image build
-RUN python build_db.py
 
 # Copy application code
 COPY app.py .
+COPY build_furniture_db.py .
 COPY .env* ./
-COPY *.db ./
+
+# Build database during image build
+RUN ["python", "build_furniture_db.py"]
 
 # Create a non-root user for security
 RUN useradd --create-home --shell /bin/bash app && \

@@ -65,30 +65,30 @@ pip install -r requirement.txt
 
 ## 4. Registering and provisioning watsonx Orchestrate Free Trial
 
-1. Please access the following link:
+1.Please access the following link:
 https://www.ibm.com/products/watsonx-orchestrate and click on `Try it for free`
 ![alt text](images/image.png)
 
-2. please fill in your email address can be personal email address and other information to register for watsonx Orchestrate
+2.please fill in your email address can be personal email address and other information to register for watsonx Orchestrate
 ![alt text](images/image-1.png)
 
 
-3. After registering you should get a code to your email.
+3.After registering you should get a code to your email.
 ![alt text](images/image-2.png)
 
-4. Please add the code to register for free trial
+4.Please add the code to register for free trial
 ![alt text](images/image-3.png)
 
-5. Once registered please deploy the trial in `us-east` region
+5.Once registered please deploy the trial in `us-east` region
 ![alt text](images/image-4.png)
 
 ![alt text](images/image-5.png)
 
-6. You will be directed to: https://dl.watson-orchestrate.ibm.com/. Afterwards please, login with the IBMid and password you signed up with.
+6.You will be directed to: https://dl.watson-orchestrate.ibm.com/. Afterwards please, login with the IBMid and password you signed up with.
 
 ![alt text](images/image-7.png)
 
-7. Your instance have been successfully provisioned once you landed here.
+7.Your instance have been successfully provisioned once you landed here.
 ![alt text](images/image-8.png)
 
 
@@ -130,12 +130,13 @@ Alternatively,
 https://developer.watson-orchestrate.ibm.com/environment/production_import
 
 
-
+<!-- 
 ## 6. Setup Third Party Model 
 
-To improve Thai language performance, watsonx Orchestrate supports external models via the `AI gateway`. See more: [Managing LLMs](https://developer.watson-orchestrate.ibm.com/llm/managing_llm). In this lab we will use `google/gemini-2.5-flash`
+To improve Thai language performance, watsonx Orchestrate supports external models via the `AI gateway`. See more: [Managing LLMs](https://developer.watson-orchestrate.ibm.com/llm/managing_llm). In this lab we will use `google/gemini-2.5-flash` 
+-->
 
-STEPS:
+<!-- STEPS: -->
 <!-- 1. Rename `env-template` to `.env` and add your `GOOGLE_API_KEY` which we will provide to you 
 
 (if you want to use your own API, you can also get it from [Google AI Studio](https://aistudio.google.com)). -->
@@ -147,7 +148,7 @@ STEPS:
     - ![Unable to create key](images/unabletocreatekey.png)
 
 3. Complete the instructions in `00_SETUP`. -->
-
+<!-- 
 1. Go to the WatsonxOrchestrate connections tab and add a connection named `gg_creds_UI`.
     - ![Gateway 1](images/gateway_1.png)
     - ![Gateway 2](images/gateway_2.png)
@@ -164,4 +165,4 @@ STEPS:
     orchestrate models add --name google/gemini-2.5-flash --app-id gg_creds_UI
     ```
     - ![Added Gemini](images/added_gemini.png)
-
+ -->

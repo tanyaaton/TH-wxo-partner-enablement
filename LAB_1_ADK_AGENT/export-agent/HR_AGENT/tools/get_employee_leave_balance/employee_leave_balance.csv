@@ -1,0 +1,6 @@
+employee_id,leave_year,annual_leave_total,annual_leave_used,annual_leave_available,sick_leave_total,sick_leave_used,sick_leave_available,personal_leave_total,personal_leave_used,personal_leave_available,last_updated
+EMP001,2025,20,8,12,10,2,8,5,1,4,2025-10-01
+EMP002,2025,25,5,20,10,0,10,5,0,5,2025-10-01
+EMP003,2025,20,0,20,10,0,10,5,0,5,2025-10-01
+EMP004,2025,15,3,12,10,1,9,5,0,5,2025-10-01
+EMP005,2025,22,3,19,10,3,7,5,1,4,2025-10-01

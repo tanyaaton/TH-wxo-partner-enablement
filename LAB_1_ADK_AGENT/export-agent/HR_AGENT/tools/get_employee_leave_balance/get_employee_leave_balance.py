@@ -11,6 +11,9 @@ def get_employee_leave_balance(employee_id: str) -> dict:
         - Annual leave (total, used, available)
         - Sick leave (total, used, available)
         - Personal leave (total, used, available)
+        - Floating holidays (total, used, available)
+        - Bereavement leave available
+        - Jury duty leave available
         - Last updated date
 
     Args:

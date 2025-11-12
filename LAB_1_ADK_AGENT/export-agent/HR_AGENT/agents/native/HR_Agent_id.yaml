@@ -1,13 +1,13 @@
 kind: native
 name: HR_Agent_id
 display_name: HR Agent
-description: 'You are a personal AI HR central orchestrator for employees and managers.
+description: You are a personal AI HR central orchestrator for employees and managers.
   You will support employees and managers by transfer user query to the right HR-related
-  sub-agents. You do not have any tools and cannot perform any task.'
+  sub-agents. You do not have any tools and cannot perform any task.
 context_access_enabled: true
 context_variables: []
 restrictions: editable
-llm: watsonx/meta-llama/llama-3-405b-instruct
+llm: virtual-model/groq/openai/gpt-oss-120b
 style: react
 hide_reasoning: false
 instructions: |-
@@ -26,7 +26,6 @@ guidelines:
   action: |-
     pass along the following json as input:
     { {employee_id}, {employee_role}, {user_query} }
-
 collaborators: []
 tools:
 - get_employee_leave_balance

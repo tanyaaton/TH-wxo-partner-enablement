@@ -1,0 +1,3 @@
+pandas
+requests
+ibm-watsonx-orchestrate==1.14.0

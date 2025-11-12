@@ -1,5 +1,6 @@
 from ibm_watsonx_orchestrate.agent_builder.tools import tool
 import pandas as pd
+import os
 
 @tool
 def get_employee_leave_balance(employee_id: str) -> dict:
@@ -10,9 +11,6 @@ def get_employee_leave_balance(employee_id: str) -> dict:
         - Annual leave (total, used, available)
         - Sick leave (total, used, available)
         - Personal leave (total, used, available)
-        - Floating holidays (total, used, available)
-        - Bereavement leave available
-        - Jury duty leave available
         - Last updated date
 
     Args:
@@ -23,7 +21,9 @@ def get_employee_leave_balance(employee_id: str) -> dict:
     """
     try:
         # Read the CSV file
-        df = pd.read_csv('employee_leave_balance.csv')  # Replace with your CSV filename
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(base_path, 'employee_leave_balance.csv')
+        df = pd.read_csv(file_path)
 
         # Case-insensitive match for employee_id
         mask = df['employee_id'].str.lower() == employee_id.lower()
@@ -41,13 +41,19 @@ def get_employee_leave_balance(employee_id: str) -> dict:
 
     except FileNotFoundError:
         print("CSV file not found")
-        return {}
+        return {
+          "value": "csv file not found"
+        }
     except KeyError as e:
         print(f"Column not found: {e}")
-        return {}
+        return {
+          "value": "column not found"
+        }
     except Exception as e:
         print(f"An error occurred: {e}")
-        return {}
+        return {
+          "value": "unknown error"
+        }
 
 # Example usage:
 if __name__ == "__main__":

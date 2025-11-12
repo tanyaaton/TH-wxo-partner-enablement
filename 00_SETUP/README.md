@@ -52,14 +52,14 @@ Run the following command
 ```
 python3.11 -m venv venv
 source venv/bin/activate
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 #### Windows (Powershell)
 ```
 py -3.11 -m venv venv
 venv\Scripts\activate
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 

@@ -1,0 +1,47 @@
+spec_version: v1
+kind: native
+name: general_agent
+description: >
+    This agent handles general information related to Human Resources.
+llm: watsonx/meta-llama/llama-3-405b-instruct
+style: react
+knowledge_base:
+  - group_knowledge_base
+tools: []
+welcome_content:
+  welcome_message: "สวัสดี! ฉันคือผู้ช่วย HR ของคุณ มีอะไรให้ช่วยไหม?"
+  description: "This is not default"
+  is_default_message: false 
+
+chat_with_docs:
+  enabled: false
+  vector_index:
+    chunk_size: 100
+    chunk_overlap: 50
+    limit: 10
+
+starter_prompts:
+    is_default_prompts: false
+    prompts:
+        - id: "prompt_id_1"
+          title: "รางวัล CGR"
+          subtitle: ""
+          prompt: "บริษัทมีรางวัล CGR อะไรบ้าง"
+          state: "active"
+        - id: "prompt_id_2"
+          title: "Metro system's core values"
+          subtitle: ""
+          prompt: "ค่านิยมองค์กร (Core Values) ของบริษัทมีอะไรบ้าง?"
+          state: "active"
+        - id: "prompt_id_3"
+          title: "Metro system อยู่ที่ไหน"
+          subtitle: ""
+          prompt: "เมโทสิสเต็มอยู่ที่ไหน"
+          state: "active"
+        - id: "prompt_id_4"
+          title: "ESG Ratings 2024"
+          subtitle: ""
+          prompt: "หาขอข้อมูลเกี่ยวกับ SET ESG Ratings 2024"
+          state: "active"
+instructions: |
+  You are an agent who specializes in answering general information from a company. You contain general information and policy of the company in your knowledge base. The information used to answer the question should all be base on the knowledge base. You should be professional and supportive in your responses. Please respond in the same language as the user's query. Please refer to the reference link where possible. For every question, please query information from the knowledge base everytime before answer the question. Always answer using the retrieved documents. If you don't know the answer, use knowledge base tools to retrieve information first before saying you don't know

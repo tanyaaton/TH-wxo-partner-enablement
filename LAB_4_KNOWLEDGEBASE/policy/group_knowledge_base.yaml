@@ -1,0 +1,39 @@
+spec_version: v1
+kind: knowledge_base
+name: group_knowledge_base
+description: |
+  This knowledge base contains general information and company policies for employees.
+  - Comprehensive company leave policy manual for all employee levels — permanent, temporary, and probationary staff.
+  - Covers general principles, leave management via HRMS, approval rules, and disciplinary actions for unapproved absences.
+  - Defines annual, casual, earned, maternity, paternity, unpaid, compensatory, sabbatical, study, and military leave types.
+  - Specifies entitlement calculations, accumulation rules, and maximum carry-forward limits (e.g., 45 days for long-serving employees).
+  - Details maternity leave (26 weeks) and paternity leave (7 days) conditions, including adoption and surrogacy cases.
+  - Explains procedures for leave requests, approvals, extensions, and cancellations within HRMS.
+  - Includes guidelines for leave encashment and payout upon resignation or termination.
+  - Provides disciplinary framework for policy violations — warnings, suspension, or termination.
+  - Contains reporting and compliance mechanisms for HR, including monthly tracking and annual policy reviews.
+  - Appendices include standard leave forms, calculation tables, and required supporting documents (medical, adoption, education, etc.).
+
+documents:
+  - path: ./thai_policy.pdf
+
+
+vector_index:
+  embeddings_model_name: intfloat/multilingual-e5-large
+  chunk_size: 100
+  chunk_overlap: 50
+  top_k: 10
+  extraction_strategy: standard
+
+conversational_search_tool:
+  language: "th"
+  generation:
+    enabled: False
+  confidence_thresholds:
+    retrieval_confidence_threshold: 'Low'
+    response_confidence_threshold: 'Low'
+  query_rewrite:
+    enabled: True
+  citations:
+    citations_shown: -1
+  

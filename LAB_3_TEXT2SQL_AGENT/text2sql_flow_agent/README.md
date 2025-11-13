@@ -1,4 +1,4 @@
-# Lab 4: Create text2sql_agent with flow tool
+# Lab 3: Create text2sql_agent with flow tool
 This lab, we create another text2sql agent that include workflow tools
 
 - Complete Lab_0 (setup the lab environment).
@@ -13,7 +13,7 @@ orchestrate env activate trial-env -a <YOUR_API_KEY>
 
 ## 2 — Import the agent and tools
 
-1. cd to this directory: `LAB_4_TEXT2SQL_AGENT/text2sql_flow_agent`
+1. cd to this directory: `LAB_3_TEXT2SQL_AGENT/text2sql_flow_agent`
 2. Import the tool and agent into watsonX Orchestrate using bash script. Run the following function
 
 ```

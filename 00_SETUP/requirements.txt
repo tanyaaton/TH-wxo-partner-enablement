@@ -1,1 +1,1 @@
-ibm-watsonx-orchestrate
+ibm-watsonx-orchestrate=1.14.1

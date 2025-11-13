@@ -1,4 +1,4 @@
-# Lab 4: Create text2sql_agent with flow tool
+# Lab 3: Create text2sql_agent with flow tool
 This lab, we create another text2sql agent that include workflow tools
 
 - Complete Lab_0 (setup the lab environment).

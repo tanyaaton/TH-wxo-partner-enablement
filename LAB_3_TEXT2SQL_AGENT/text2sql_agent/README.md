@@ -1,4 +1,4 @@
-# Lab 4: Create text2sql_agent 
+# Lab 3: Create text2sql_agent 
 This lab we will import text2sql agent that connect to openapi tool that is used to query database
 
 ### Prerequisites

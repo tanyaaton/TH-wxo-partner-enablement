@@ -6,9 +6,11 @@ You **must** complete **00_SETUP** before attending the hands on lab.
 - **00_SETUP** - registering for watsonx Orchestrate free trial and compulsory setup.
 
 These labs will be completed **during the hands on lab**
-- **LAB_1_PROCUREMENT_AGENT** – 
-- **LAB_2_RESUME_AGENT** – 
-- **LAB_3_ACCOUNTING_AGENT** – 
+- **LAB_1_ADK_AGENT** 
+- **LAB_2_AIGATEWAY** 
+- **LAB_3_TEXT2SQL_AGENT** (text2sql agent + agentic workflow)
+- **LAB_4_KNOWLEDGEBASE**
+
 ---
 
 ## Prerequisites
@@ -23,8 +25,6 @@ These labs will be completed **during the hands on lab**
 ## Quick start
 
 ```bash
-git clone https://github.com/edsml-kl121/TH-custom-retail-watsonx-orchestrate-workshop.git
-cd TH-wxo-workshop-agentic-ai
+git clone https://github.com/tanyaaton/TH-wxo-partner-enablement
+cd TH-wxo-partner-enablement
 ```
-
-Here are backup credentials incase of any issues:

@@ -1,0 +1,32 @@
+{
+  "name": "get_employee_leave_balance",
+  "description": "Retrieves leave balance information for a specified employee (case-insensitive) from a CSV file (mocked as a DataFrame).\n\nSummary of Leave Balance Data:\n    - Annual leave (total, used, available)\n    - Sick leave (total, used, available)\n    - Personal leave (total, used, available)\n    - Floating holidays (total, used, available)\n    - Bereavement leave available\n    - Jury duty leave available\n    - Last updated date",
+  "permission": "read_only",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "employee_id": {
+        "type": "string",
+        "title": "Employee Id",
+        "description": "Employee ID to look up (case-insensitive, e.g., 'EMP001')."
+      }
+    },
+    "required": [
+      "employee_id"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "description": "Dictionary with leave balance details for an employee, or empty dict if not found.",
+    "additionalProperties": true
+  },
+  "binding": {
+    "python": {
+      "function": "get_employee_leave_balance:get_employee_leave_balance",
+      "requirements": [
+        "pandas",
+        "requests"
+      ]
+    }
+  }
+}

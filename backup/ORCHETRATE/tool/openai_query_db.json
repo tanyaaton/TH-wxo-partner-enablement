@@ -1,0 +1,123 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SQLite Query Service",
+    "version": "1.0.0",
+    "description": "A simple API for running read-only SQL SELECT queries on a local SQLite database. This service executes queries provided via the `q` query parameter and returns JSON results. Only `SELECT` statements are allowed."
+  },
+  "servers": [
+    {
+      "url": "https://application-4c-stgb.21ofwdk6vvyf.eu-de.codeengine.appdomain.cloud"
+    }
+  ],
+  "paths": {
+    "/query": {
+      "get": {
+        "summary": "Execute SQL SELECT query",
+        "operationId": "execute_query",
+        "description": "Execute a safe, read-only SQL `SELECT` query against the SQLite database (`data.db`). Only SELECT statements are allowed (checked via regex). Any non-SELECT or invalid SQL will return a 400 Bad Request error.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The SQL SELECT query to execute.",
+              "example": "SELECT * FROM student LIMIT 5"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rows_returned": {
+                      "type": "integer",
+                      "description": "Number of rows returned by the query.",
+                      "example": 5
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "Query result as a list of row objects.",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "sample": {
+                    "summary": "Example successful response",
+                    "value": {
+                      "rows_returned": 5,
+                      "data": [
+                        {
+                          "รหัสประจำตัว": 24156,
+                          "ชั้น": "ป.1",
+                          "ห้อง": 1,
+                          "ชื่อ": "เฌอณชา",
+                          "นามสกุล": "คันธวงค์",
+                          "เพศ": "หญิง",
+                          "จังหวัด": "จ.เชียงใหม่"
+                        },
+                        {
+                          "รหัสประจำตัว": 23860,
+                          "ชั้น": "ป.1",
+                          "ห้อง": 1,
+                          "ชื่อ": "ธัญชนก",
+                          "นามสกุล": "วิรุฬห์ศักดิ์สกุล",
+                          "เพศ": "หญิง",
+                          "จังหวัด": "จ.เชียงใหม่"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query (non-SELECT or malformed SQL).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "example": "Only SELECT statements are allowed."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Database or internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "example": "no such table: student"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

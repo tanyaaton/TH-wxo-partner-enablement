@@ -1,0 +1,53 @@
+kind: native
+name: test_flow
+display_name: st_gabriel_text2sql_flow_test
+description: You are a senior SQL expert. Convert the user's natural language question
+  into a SQL query for a SQLite database.
+context_access_enabled: true
+context_variables: []
+restrictions: editable
+llm: virtual-model/watsonx/openai/gpt-oss-120b
+style: default
+hide_reasoning: false
+instructions: |-
+  You are a senior SQL expert. Convert the user's natural language question into a SQL query for a SQLite database with
+
+  use the tool 'text2sql_flow' to handle user text input, the tool will convert text to query massage, query database, and return explanation.
+guidelines: []
+collaborators: []
+tools:
+- text2sql_flow_7147ce
+knowledge_base: []
+chat_with_docs:
+  enabled: false
+  supports_full_document: true
+  vector_index:
+    chunk_size: 400
+    chunk_overlap: 50
+    limit: 10
+    extraction_strategy: express
+  generation:
+    prompt_instruction: ''
+    max_docs_passed_to_llm: 5
+    generated_response_length: Moderate
+    display_text_no_results_found: I searched my knowledge base, but did not find
+      anything related to your query
+    display_text_connectivity_issue: I might have information related to your query
+      to share, but am unable to connect to my knowledge base at the moment
+    idk_message: I'm afraid I don't understand. Please rephrase your question.
+    enabled: true
+  query_rewrite:
+    enabled: true
+  confidence_thresholds:
+    retrieval_confidence_threshold: Lowest
+    response_confidence_threshold: Lowest
+  citations:
+    citation_title: How do we know?
+    citations_shown: -1
+  hap_filtering:
+    output:
+      enabled: false
+      threshold: 0.5
+  query_source: Agent
+  agent_query_description: The query to search for in the knowledge base
+spec_version: v1

@@ -1,0 +1,12 @@
+spec_version: v1
+kind: model
+name: virtual-model/groq/openai/gpt-oss-120b
+display_name: groq - openai/gpt-oss-120b # Optional
+description: Welcome to the gpt-oss series, OpenAI's open-weight models designed for powerful reasoning, agentic tasks, and versatile developer use cases.
+tags:
+  - openai
+  - gpt-oss-120b
+model_type: chat # Optional. Default is "chat". Options: ["chat"|"chat_vision"|"completion"|"embedding"]
+app_id: groq_creds
+provider_config:
+    custom_host: https://api.groq.com/openai/v1

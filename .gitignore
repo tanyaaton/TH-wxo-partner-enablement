@@ -22,3 +22,4 @@ run-all-admin.sh
 **/central-be-procurement-api-f108850ba368.json
 *.pub
 **_key
+node_modules

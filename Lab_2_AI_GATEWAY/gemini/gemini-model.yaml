@@ -1,0 +1,12 @@
+spec_version: v1
+kind: model
+name: google/gemini-2.5-flash
+display_name: Gemini Flash-1
+description: |
+    Google Generative AI Gemini Flash model via API key authentication.
+tags:
+- google
+- genai
+- gemini
+model_type: chat
+provider_config: {}

@@ -6,4 +6,4 @@ description: |
   IBM watsonx.ai model using Space-scoped configuration.
 model_type: chat
 provider_config:
-  watsonx_project_id: 2256d5db-0028-4632-8069-5e8e564fb355
+  watsonx_project_id: f29011ed-93f8-4ad4-b67a-bd642caff110

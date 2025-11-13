@@ -1,7 +1,7 @@
 {
   "spec": {
     "kind": "flow",
-    "name": "Untitled_7246wX",
+    "name": "text2sql_flow_7147ce",
     "initiators": [],
     "description": "query database with sql massage",
     "display_name": "text2sql_flow",
